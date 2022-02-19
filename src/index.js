@@ -8,21 +8,24 @@ const infoEl = document.querySelector('.country-info');
 const countryEl = document.querySelector('.country-list')
 const DEBOUNCE_DELAY = 300;
 
+function performEl() {
+    countryEl.innerHTML = '';
+    infoEl.innerHTML = '';
+};
+
 searchBox.addEventListener('input', debounce(event => {
     event.preventDefault();
     if (searchBox.value) {
         const name = searchBox.value.trim();
         return fetchCountries(name).then(showCountries).catch(error);
     } else {
-        countryEl.innerHTML = '';
-        infoEl.innerHTML = '';
+        performEl()
     }
 
 }, DEBOUNCE_DELAY));
 
 function showCountries(countries) {
-    countryEl.innerHTML = '';
-    infoEl.innerHTML = '';
+    performEl()
     if (countries.length > 10) {
         return Notiflix.Notify.info('Too many matches found. Please enter a more specific name.', { timeout: 1000 })
     }
